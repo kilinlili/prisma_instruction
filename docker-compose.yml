@@ -1,0 +1,28 @@
+services:
+  testDB:
+    image: postgres:13.1
+    volumes:
+      - db-vol:/var/lib/postgresql/data
+    ports:
+      - "35432:5432"
+    networks:
+      mynet:
+        ipv4_address: 170.111.111.111
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+
+volumes:
+  db-vol:
+    driver_opts:
+      type: none
+      device: $PWD/postgresql
+      o: bind
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 170.111.0.0/16
